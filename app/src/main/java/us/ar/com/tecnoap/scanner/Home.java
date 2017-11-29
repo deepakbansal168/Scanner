@@ -266,9 +266,9 @@ public class Home extends AppCompatActivity {
             if (result.getText() != null) {
                 barcodeView.setStatusText(result.getText());
                 Log.i("SCAN 0", result.getText());
-                if(dbHelper.getCode(Home.this,"7501007413105")){
-                    dbHelper.getpnameprice(txtpname,txtprice,pricetext,"7501007413105");
-                    code="7501007413105";
+                if(dbHelper.getCode(Home.this,result.getText())){
+                    dbHelper.getpnameprice(txtpname,txtprice,pricetext,result.getText());
+                    code=result.getText();
                     Log.i("SCAN 1", "yes");
                 }else{
                     AppMsg.makeText(Home.this,"Product Not Found",AppMsg.STYLE_ALERT).show();
