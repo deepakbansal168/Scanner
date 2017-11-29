@@ -1,9 +1,13 @@
 package us.ar.com.tecnoap.scanner;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.SyncStateContract;
@@ -12,10 +16,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -63,6 +73,22 @@ public class Home extends AppCompatActivity {
     String code;
     ProgressDialog pd;
     private CompoundBarcodeView barcodeView;
+    public final static int Codezeo   = 50; // Keyboard.KEYCODE_DELETE
+    public final static int Codeone   = 51; // Keyboard.KEYCODE_DELETE
+    public final static int Codetwo   = 52; // Keyboard.KEYCODE_CANCEL
+    public final static int Codethree     = 53;
+    public final static int Codefour  = 54;
+    public final static int Codefive     = 55;
+    public final static int Codesix    = 56;
+    public final static int Codeseven = 57;
+    public final static int Codeeight     = 58;
+    public final static int Codenine     = 59;
+    public final static int Codedotzero     = 500;
+    public final static int CodeClear    = -55;
+    public final static int Codeleft     = 55002;
+    public final static int Coderight     = 55001;
+    public final static int Codedot    = 55000;
+    KeyboardView mKeyboardView;
 
 
     void init(){
@@ -86,9 +112,152 @@ public class Home extends AppCompatActivity {
         save.setOnClickListener(clickListener);
         cancel.setOnClickListener(clickListener);
         sync.setOnClickListener(clickListener);
+        input_price.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override public void onFocusChange(View v, boolean hasFocus) {
+                if( hasFocus ) showCustomKeyboard(v); else hideCustomKeyboard();
+            }
+        });
+        input_price.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                showCustomKeyboard(v);
+            }
+        });
+        input_price.setOnTouchListener(new View.OnTouchListener() {
+            @Override public boolean onTouch(View v, MotionEvent event) {
+                EditText edittext = (EditText) v;
+                edittext.setSelection(edittext.getText().length());
+                int inType = edittext.getInputType();       // Backup the input type
+                edittext.setInputType(InputType.TYPE_NULL); // Disable standard keyboard
+                edittext.onTouchEvent(event);               // Call native handler
+                edittext.setInputType(inType);              // Restore input type
+                return true; // Consume touch event
+            }
+        });
+        input_price.setInputType( input_price.getInputType() | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS );
+
         dbHelper=new DBHelper(Home.this);
         checkpremission("storage");
 
+        // Create the Keyboard
+        Keyboard mKeyboard= new Keyboard(Home.this,R.xml.hexkbd);
+
+        // Lookup the KeyboardView
+         mKeyboardView= (KeyboardView)findViewById(R.id.keyboardview);
+        // Attach the keyboard to the view
+        mKeyboardView.setKeyboard( mKeyboard );
+        // Do not show the preview balloons
+        mKeyboardView.setPreviewEnabled(false);
+        // Install the key handler
+        mKeyboardView.setOnKeyboardActionListener(mOnKeyboardActionListener);
+        // Hide the standard keyboard initially
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+    }
+
+    @Override public void onBackPressed() {
+        if( isCustomKeyboardVisible() ) hideCustomKeyboard(); else this.finish();
+    }
+
+    private KeyboardView.OnKeyboardActionListener mOnKeyboardActionListener = new KeyboardView.OnKeyboardActionListener() {
+        @Override public void onKey(int primaryCode, int[] keyCodes) {
+        }
+
+        @Override public void onPress(int arg0) {
+        }
+
+        @Override public void onRelease(int primaryCode) {
+            //Toast.makeText(Home.this,"release"+primaryCode,Toast.LENGTH_SHORT).show();
+            EditText edittext=input_price;
+            Editable editable=input_price.getText();
+            int start = input_price.getSelectionStart();
+            if( primaryCode==Codeone ) {
+                edittext.setText(edittext.getText().append("1"));
+                edittext.setSelection(start + 1);
+            } else if( primaryCode==Codetwo ) {
+                edittext.setText(edittext.getText().append("2"));
+                edittext.setSelection(start + 1);
+            } else if( primaryCode==Codethree ) {
+                edittext.setText(edittext.getText().append("3"));
+                edittext.setSelection(start + 1);
+            } else if( primaryCode==Codefour ) {
+                edittext.setText(edittext.getText().append("4"));
+                edittext.setSelection(start + 1);
+            } else if( primaryCode==Codefive ) {
+                edittext.setText(edittext.getText().append("5"));
+                edittext.setSelection(start + 1);
+            } else if( primaryCode==Codesix ) {
+                edittext.setText(edittext.getText().append("6"));
+                edittext.setSelection(start + 1);
+            } else if( primaryCode==Codeseven ) {
+                edittext.setText(edittext.getText().append("7"));
+                edittext.setSelection(start + 1);
+            } else if( primaryCode==Codeeight ) {
+                edittext.setText(edittext.getText().append("8"));
+                edittext.setSelection(start + 1);
+            } else if(primaryCode==Codenine){// Insert character
+                edittext.setText(edittext.getText().append("9"));
+                edittext.setSelection(start + 1);
+            }else if( primaryCode==Codezeo ) {
+                edittext.setText(edittext.getText().append("0"));
+                edittext.setSelection(start + 1);
+            }else if(primaryCode==Codedotzero){
+                edittext.setText(edittext.getText().append(".00"));
+                edittext.setSelection(start + 3);
+            }else if(primaryCode==CodeClear){
+
+                int curPostion = edittext.getSelectionEnd();
+                if(curPostion!=0){
+                    SpannableStringBuilder selectedStr = new
+                            SpannableStringBuilder(edittext.getText());
+                    selectedStr.replace(curPostion - 1, curPostion, "");
+                    edittext.setText(selectedStr);
+                    //this is to set the cursor position by -1 after deleting char/text
+                    edittext.setSelection(curPostion - 1);
+                }
+            }else if(primaryCode==Codedot){
+                edittext.setText(edittext.getText().append("."));
+                edittext.setSelection(start + 1);
+            }else if(primaryCode==Codeleft){
+                if(start>0){
+                    edittext.setSelection(start - 1);
+                }
+            }else if(primaryCode==Coderight){
+                if(start<edittext.getText().length()){
+                    edittext.setSelection(start + 1);
+                }
+
+            }
+        }
+
+        @Override public void onText(CharSequence text) {
+        }
+
+        @Override public void swipeDown() {
+        }
+
+        @Override public void swipeLeft() {
+        }
+
+        @Override public void swipeRight() {
+        }
+
+        @Override public void swipeUp() {
+        }
+    };
+
+    public void hideCustomKeyboard() {
+        mKeyboardView.setVisibility(View.GONE);
+        mKeyboardView.setEnabled(false);
+    }
+
+    public void showCustomKeyboard( View v ) {
+        mKeyboardView.setVisibility(View.VISIBLE);
+        mKeyboardView.setEnabled(true);
+        if( v!=null ) ((InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
+    public boolean isCustomKeyboardVisible() {
+        return mKeyboardView.getVisibility() == View.VISIBLE;
     }
 
     private BarcodeCallback callback = new BarcodeCallback() {
@@ -97,9 +266,9 @@ public class Home extends AppCompatActivity {
             if (result.getText() != null) {
                 barcodeView.setStatusText(result.getText());
                 Log.i("SCAN 0", result.getText());
-                if(dbHelper.getCode(Home.this,result.getText())){
-                    dbHelper.getpnameprice(txtpname,txtprice,pricetext,result.getText());
-                    code=result.getText();
+                if(dbHelper.getCode(Home.this,"7501007413105")){
+                    dbHelper.getpnameprice(txtpname,txtprice,pricetext,"7501007413105");
+                    code="7501007413105";
                     Log.i("SCAN 1", "yes");
                 }else{
                     AppMsg.makeText(Home.this,"Product Not Found",AppMsg.STYLE_ALERT).show();

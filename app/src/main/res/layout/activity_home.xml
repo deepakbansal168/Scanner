@@ -158,11 +158,21 @@
         android:layout_height="wrap_content"
         android:hint="Price"
         android:id="@+id/input_price"
-        android:inputType="numberDecimal"
+        android:inputType="text"
         android:visibility="gone"
         android:layout_below="@+id/savelay"
         android:textColor="#000"
         android:gravity="center"/>
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboardview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone" />
 
 
 
