@@ -64,7 +64,6 @@ public class Home extends AppCompatActivity {
     Button btnprice;
     TextView txtpname,txtprice,pricetext;
     RelativeLayout save,cancel,sync;
-    public static int PICKFILE_REQUEST_CODE=1000;
     DBHelper dbHelper;
     EditText input_price;
     LinearLayout updatepricelay;
@@ -324,14 +323,10 @@ public class Home extends AppCompatActivity {
                     text.append(line);
                     String[] check=line.split(";");
                     linelist.add(new Model(check[0],check[1],check[2],check[3]));
-                    //Log.i("readline",check[0]+"---"+check[1]+"---"+check[2]+"---"+check[3]+"---");
-                   // text.append('\n');
                 }
                 br.close();
                 Log.i("data check",linelist.size()+"");
                 dbHelper.add_data(linelist);
-                //dbHelper.addData(check[0],check[1],check[2],check[3]);
-                //dbHelper.getData();
             }
             catch (IOException e) {
                 Log.i("error","error");
@@ -420,6 +415,7 @@ public class Home extends AppCompatActivity {
                         txtprice.setVisibility(View.VISIBLE);
                         txtprice.setText(input_price.getText().toString().trim());
                         pricetext.setVisibility(View.VISIBLE);
+                        hideCustomKeyboard();
                         AppMsg.makeText(Home.this,"Product Updated",AppMsg.STYLE_CONFIRM).show();
 
                     }else{

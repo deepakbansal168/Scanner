@@ -56,7 +56,6 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-       // sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TICKET_DETAILS);
         onCreate(sqLiteDatabase);
     }
     public void add_data(ArrayList<Model> list) {
@@ -163,9 +162,7 @@ public class DBHelper extends SQLiteOpenHelper {
         int lines=cursor.getCount();
         ArrayList<String> data=new ArrayList<>();
         while (cursor.moveToNext()) {
-            //Log.i("check",cursor.getString(0) + ";" + cursor.getString(1) + ";" + cursor.getString(2) + ";" + cursor.getString(3) + "   "+" \n");
             data.add(cursor.getString(0) + ";" + cursor.getString(1) + ";" + cursor.getString(2) + ";" + cursor.getString(3) + "   "+" \n");
-            //builder.append(cursor.getString(0) + ";" + cursor.getString(1) + ";" + cursor.getString(2) + ";" + cursor.getString(3) + "   "+" \n");
         }
         File myDirectory = new File(Environment.getExternalStorageDirectory(), "Scanner");
         File newfile=new File(myDirectory.getAbsolutePath()+"/"+"chkprice.txt");
