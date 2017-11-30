@@ -98,7 +98,6 @@
         android:layout_marginTop="15dp"
         android:text="Nuevo Precio"
         android:id="@+id/btnprice"
-        android:visibility="gone"
 
         android:layout_below="@+id/savelay"
         android:background="#35b01e"/>
@@ -153,6 +152,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Price"
+        android:visibility="gone"
         android:id="@+id/input_price"
         android:inputType="text"
         android:layout_below="@+id/savelay"
