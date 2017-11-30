@@ -9,6 +9,11 @@
         android:orderInCategory="100"
         android:title="Read File"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_sendfile"
+        android:orderInCategory="100"
+        android:title="Send File"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_clear"

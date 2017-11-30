@@ -56,6 +56,7 @@ import java.util.List;
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
+import jcifs.smb.SmbFileOutputStream;
 
 public class Home extends AppCompatActivity {
 
@@ -510,8 +511,71 @@ public class Home extends AppCompatActivity {
             case R.id.action_clear:
                 dbHelper.deleteAllRows();
                 break;
+
+            case R.id.action_sendfile:
+                File myDirectory = new File(Environment.getExternalStorageDirectory(), "Scanner");
+                File newfile=new File(myDirectory.getAbsolutePath()+"/"+"chkprice.txt");
+                if(newfile.exists()){
+                    new MyCopy().execute();
+                }else{
+                    Toast.makeText(Home.this,"No file exists to send to server",Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+    private class MyCopy extends AsyncTask<String, String, String> {
+
+        String z = "";
+        String username = "", password = "", servername = "", filestocopy = "";
+
+        @Override
+        protected void onPreExecute() {
+            username = "";
+            password = "";
+            servername = "smb://";
+            File myDirectory = new File(Environment.getExternalStorageDirectory(), "Scanner");
+            File newfile=new File(myDirectory.getAbsolutePath()+"/"+"chkprice.txt");
+            filestocopy = newfile.getAbsolutePath().toString();
+        }
+
+
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            File A = new File(filestocopy);
+            String filename = A.getName();
+
+            NtlmPasswordAuthentication auth1 = new NtlmPasswordAuthentication(servername, null, null);
+
+            try {
+
+                SmbFile sfile = new SmbFile(servername + "/" + filename, auth1);
+                // if (!sfile.exists())
+                // sfile.createNewFile();
+                sfile.connect();
+
+                InputStream in = new FileInputStream(A);
+                //OutputStream sfos = new FileOutputStream(sfile);
+                SmbFileOutputStream sfos = new SmbFileOutputStream(sfile);
+
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    sfos.write(buf, 0, len);
+                }
+                in.close();
+                sfos.close();
+
+                z = "File copied successfully";
+            } catch (Exception ex) {
+
+                z = z + " " + ex.getMessage().toString();
+            }
+
+            return z;
+        }
     }
 
     @Override
