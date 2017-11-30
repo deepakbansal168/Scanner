@@ -27,5 +27,6 @@
         <Key android:codes="50"    android:keyLabel="0" android:keyEdgeFlags="left" />
         <Key android:codes="500" android:keyLabel=".00" android:isRepeatable="true"  />
         <Key android:codes="-55" android:keyLabel="CLR" android:keyEdgeFlags="right"/>
+        <Key android:codes="55003"    android:keyLabel="ENT" />
     </Row>
 </Keyboard>

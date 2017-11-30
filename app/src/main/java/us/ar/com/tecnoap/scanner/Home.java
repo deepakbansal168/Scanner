@@ -89,6 +89,7 @@ public class Home extends AppCompatActivity {
     public final static int Codeleft     = 55002;
     public final static int Coderight     = 55001;
     public final static int Codedot    = 55000;
+    public final static int Codeent    = 55003;
     KeyboardView mKeyboardView;
     ScrollView scrollView1;
 
@@ -227,6 +228,8 @@ public class Home extends AppCompatActivity {
                     edittext.setSelection(start + 1);
                 }
 
+            }else if(primaryCode==Codeent){
+                hideCustomKeyboard();
             }
         }
 
