@@ -430,6 +430,7 @@ public class Home extends AppCompatActivity {
                     txtpname.setVisibility(View.VISIBLE);
                     txtprice.setVisibility(View.VISIBLE);
                     pricetext.setVisibility(View.VISIBLE);
+                    hideCustomKeyboard();
                     barcodeView.resume();
                     break;
                 case R.id.btnprice:
