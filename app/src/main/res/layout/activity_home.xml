@@ -152,7 +152,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Price"
-
+        android:visibility="gone"
         android:id="@+id/input_price"
         android:inputType="text"
         android:layout_below="@+id/savelay"
