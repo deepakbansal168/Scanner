@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView android:id="@+id/ScrollView01"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillViewport="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:layout_height="match_parent"
     tools:context="us.ar.com.tecnoap.scanner.Home">
+
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -15,21 +24,6 @@
         card_view:cardBackgroundColor="#ffffff"
         card_view:cardElevation="4dp"
         android:id="@+id/cardview">
-
-        <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
-
-            <!--<ImageView-->
-                <!--android:layout_width="150dp"-->
-                <!--android:layout_height="150dp"-->
-                <!--android:layout_centerInParent="true"-->
-                <!--android:src="@drawable/add"/>-->
-
-        <!---->
-
-        <!--</RelativeLayout>-->
-
 
         <com.journeyapps.barcodescanner.CompoundBarcodeView
             android:id="@+id/barcode_scanner"
@@ -104,6 +98,8 @@
         android:layout_marginTop="15dp"
         android:text="Nuevo Precio"
         android:id="@+id/btnprice"
+        android:visibility="gone"
+
         android:layout_below="@+id/savelay"
         android:background="#35b01e"/>
 
@@ -159,16 +155,16 @@
         android:hint="Price"
         android:id="@+id/input_price"
         android:inputType="text"
-        android:visibility="gone"
         android:layout_below="@+id/savelay"
         android:textColor="#000"
-        android:gravity="center"/>
+        android:gravity="center">
+    </EditText>
 
     <android.inputmethodservice.KeyboardView
         android:id="@+id/keyboardview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/input_price"
         android:layout_centerHorizontal="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -177,3 +173,4 @@
 
 
 </RelativeLayout>
+</ScrollView>

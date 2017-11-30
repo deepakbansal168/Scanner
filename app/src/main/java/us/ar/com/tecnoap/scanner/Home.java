@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,6 +90,7 @@ public class Home extends AppCompatActivity {
     public final static int Coderight     = 55001;
     public final static int Codedot    = 55000;
     KeyboardView mKeyboardView;
+    ScrollView scrollView1;
 
 
     void init(){
@@ -99,10 +101,9 @@ public class Home extends AppCompatActivity {
         sync=(RelativeLayout)findViewById(R.id.sync);
         input_price=(EditText)findViewById(R.id.input_price);
         pricetext=(TextView)findViewById(R.id.txtprice);
+        scrollView1=(ScrollView)findViewById(R.id.ScrollView01);
         barcodeView = (CompoundBarcodeView)findViewById(R.id.barcode_scanner);
         barcodeView.decodeContinuous(callback);
-
-
 
         txtpname=(TextView)findViewById(R.id.pname);
         txtprice=(TextView)findViewById(R.id.price);
@@ -150,7 +151,7 @@ public class Home extends AppCompatActivity {
         // Install the key handler
         mKeyboardView.setOnKeyboardActionListener(mOnKeyboardActionListener);
         // Hide the standard keyboard initially
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
     }
 
