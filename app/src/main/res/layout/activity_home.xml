@@ -25,13 +25,46 @@
         card_view:cardElevation="4dp"
         android:id="@+id/cardview">
 
-        <com.journeyapps.barcodescanner.CompoundBarcodeView
-            android:id="@+id/barcode_scanner"
+        <!--<com.journeyapps.barcodescanner.CompoundBarcodeView-->
+            <!--android:id="@+id/barcode_scanner"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--&gt;-->
+
+        <!--</com.journeyapps.barcodescanner.CompoundBarcodeView>-->
+        <SurfaceView
+            android:id="@+id/preview_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true" />
+        <ImageButton
+            android:id="@+id/flashButton"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:background="#00000000"
+            android:scaleType="fitXY"
+            android:src="@drawable/flashbuttonoff" />
+
+        <ImageButton
+            android:id="@+id/zoomButton"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="4dp"
+            android:background="#00000000"
+            android:scaleType="centerInside"
+            android:src="@drawable/zoom" />
+
+        <ImageView
+            android:id="@+id/imageOverlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
-
-        </com.journeyapps.barcodescanner.CompoundBarcodeView>
+            android:scaleType="fitXY"
+            android:src="@drawable/overlay"
+            android:visibility="gone" />
 
 
     </android.support.v7.widget.CardView>
